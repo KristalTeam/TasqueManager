@@ -1,0 +1,26 @@
+mods/cat-petterz/scripts/objects/Cat.lua:25: attempt to index a nil value
+
+stack traceback:
+	[C]: in function 'pcall'
+	main.lua:412: in function '__newindex'
+        mods/cat-petterz/scripts/objects/Cat.lua:25: in function 'update'
+	src/engine/object.lua:1611: in function 'fullUpdate'
+	src/engine/object.lua:1592: in function 'updateChildren'
+	src/engine/object.lua:291: in function 'update'
+	src/engine/game/world.lua:1258: in function 'update'
+	...
+	src/engine/object.lua:1611: in function 'fullUpdate'
+	src/engine/objects/stage.lua:89: in function 'update'
+	src/engine/game/game.lua:1052: in function 'orig'
+	src/kristal.lua:169: in function 'update'
+	main.lua:329: in function 'doUpdate'
+	main.lua:373: in function <main.lua:345>
+	[C]: in function 'xpcall'
+	main.lua:409: in function <main.lua:393>
+	[C]: in function 'xpcall'
+	[love "boot.lua"]:377: in function <[love "boot.lua"]:344>
+
+Kristal v0.10.0-dev (f8414da)
+Mod: cat-petterz v1.0.0
+Libraries:
+holiday-helpers v1.22.5

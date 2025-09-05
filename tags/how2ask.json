@@ -1,0 +1,87 @@
+[
+    {
+        "type": 10,
+        "content": "# How To Ask For Help"
+    },
+    {
+        "type": 14,
+        "divider": true,
+        "spacing": 2
+    },
+    {
+        "type": 10,
+        "content": "It's very common that we get help requests which need far more back-and-forth than what's required.\n\nTo ask a proper question, we need to know the following information:\n\n- **What were you doing to cause this error?** *(Did you add a library? Were you trying to write something?)*\n- **Send code if relevant.** *(Ex. if the error is a code error, send the code.)*\n- **Send the full error.** *(This can either be a screenshot of the **full error** (please tell us the libraries you use if so), or you can copy it from the error screen. Please put it in a codeblock.)*\n\nBefore asking for help, *please* try figuring it out yourself. Everyone who helps are people volunteering their free time, and we can't answer every small question."
+    },
+    {
+        "type": 14,
+        "divider": true,
+        "spacing": 2
+    },
+    {
+        "type": 10,
+        "content": "## An example of a good question:"
+    },
+    {
+        "type": 17,
+        "accent_color": null,
+        "spoiler": false,
+        "components": [
+            {
+                "type": 10,
+                "content": "<:noelle_pfp_top_left:1396332543942590474><:noelle_pfp_top_right:1396332533775466556>    **holidaygirl1225** *12:25 PM*\n<:noelle_pfp_bottom_left:1396332523155357716><:noelle_pfp_bottom_right:1396332512258555916>    Hi, I was trying to make it possible to click on the cats, but I'm running into this error, can someone help please?"
+            },
+            {
+                "type": 10,
+                "content": "```lua\nfunction Cat:update()\n    -- Noelle's code\nend\n```"
+            },
+            {
+                "type": 13,
+                "file": {
+                    "url": "attachment://error.txt"
+                },
+                "spoiler": false
+            }
+        ]
+    },
+    {
+        "type": 14,
+        "divider": false,
+        "spacing": 2
+    },
+    {
+        "type": 10,
+        "content": "## An example of a bad question:"
+    },
+    {
+        "type": 17,
+        "accent_color": null,
+        "spoiler": false,
+        "components": [
+            {
+                "type": 10,
+                "content": "<:susie_pfp_top_left:1396332937804251247><:susie_pfp_top_right:1396332928450957472>    **sus_sk8bordgamez** *4:13 PM*\n<:susie_pfp_bottom_left:1396332920435904542><:susie_pfp_bottom_right:1396332911262699590>    how do i fix this"
+            },
+            {
+                "type": 12,
+                "items": [
+                    {
+                        "media": {
+                            "url": "attachment://GSTR_04131225.png"
+                        },
+                        "description": null,
+                        "spoiler": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": 14,
+        "divider": true,
+        "spacing": 2
+    },
+    {
+        "type": 10,
+        "content": "Asking for help properly is very important, as it impacts our ability to help you! If you want an error figured out faster, please follow this advice. Thank you!"
+    }
+]

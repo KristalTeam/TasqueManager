@@ -1,0 +1,33 @@
+[
+    {
+        "type": 10,
+        "content": "Adding new characters to Kristal should __not__ be done by replacing existing characters, but by creating new ones.\n\n- To create a custom character, you must create an **[actor](<https://kristal.cc/wiki/actors>)**.\n- After creating your actor, if you want them to be playable, you must create a **[party member](<https://kristal.cc/wiki/party-members>)**.\n"
+    },
+    {
+        "type": 1,
+        "components": [
+            {
+                "type": 2,
+                "style": 5,
+                "label": "Actors",
+                "emoji": {
+                    "name": "1396367932644397066",
+                    "id": "1396367932644397066"
+                },
+                "disabled": false,
+                "url": " https://kristal.cc/wiki/actors"
+            },
+            {
+                "type": 2,
+                "style": 5,
+                "label": "Party Members",
+                "emoji": {
+                    "name": "kristal",
+                    "id": "1396367932644397066"
+                },
+                "disabled": false,
+                "url": "https://kristal.cc/wiki/party-members"
+            }
+        ]
+    }
+]

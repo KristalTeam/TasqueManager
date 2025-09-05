@@ -39,3 +39,15 @@ On the website, you can manually enter the URL, so this is supported fine.
 ### Adding custom emotes
 
 Ask someone in the Discord Developer "Kristal" Team to add bot emotes if you need them. If you're on the team, you can add them yourself by going to [the Discord Developer Portal](https://discord.com/developers/applications), scrolling to the **Kristal** team and selecting **Tasque Manager**, going to the **Emojis** tab, and uploading the emotes there. Ideally, we shouldn't need this very often, but formatting messages with custom emotes is very useful for presentation.
+
+## Running the bot
+
+The bot uses NodeJS. You will need to install all modules (`npm install`), and then create a `.env` file with the following variables:
+
+```env
+DISCORD_TOKEN="YOUR-BOT-TOKEN-HERE"
+DISCORD_CLIENT_ID="YOUR-BOT-CLIENT-ID"
+DISCORD_OWNER_ID="YOUR-USER-ACCOUNT-ID"
+```
+
+Please make sure to test the bot before submitting any changes. We recommend you do this by making a testing bot account.

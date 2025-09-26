@@ -12,6 +12,8 @@
   "dependencies": {
     "discord.js": "^14.21.0",
     "dotenv": "^17.2.0",
+    "parse-duration": "^2.1.4",
     "sanitize-filename": "^1.6.3"
-  }
+  },
+  "type": "module"
 }

@@ -1,6 +1,7 @@
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
-const fs = require('node:fs');
-const path = require('node:path');
+import { SlashCommandBuilder, MessageFlags } from 'discord.js';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 class TagCommand {
 	constructor() {
@@ -27,6 +28,8 @@ class TagCommand {
 		// - tags/my_second_tag.json -> `my_second_tag` is now a tag
 		// - tags/my_second_tag/hi.png -> attachment for `my_second_tag` named `hi.png`
 
+		const __filename = fileURLToPath(import.meta.url);
+		const __dirname = path.dirname(__filename);
 		const tagsPath = path.join(__dirname, '../../', 'tags');
 		// this folder should always exist
 
@@ -44,9 +47,14 @@ class TagCommand {
 						attachmentsDir = null; // no attachments
 					}
 
-					this.tags.set(tagName, {
+					/*this.tags.set(tagName, {
 						path: filePath,
 						content: require(filePath),
+						attachmentsDir: attachmentsDir
+					});*/
+					this.tags.set(tagName, {
+						path: filePath,
+						content: JSON.parse(fs.readFileSync(filePath, 'utf-8')),
 						attachmentsDir: attachmentsDir
 					});
 					console.log(`Loaded tag: ${tagName}`);
@@ -109,4 +117,4 @@ class TagCommand {
 	}
 }
 
-module.exports = new TagCommand();
+export default new TagCommand();

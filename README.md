@@ -5,6 +5,8 @@ A Discord bot for the Kristal Discord server.
 > [!WARNING]
 > This is not meant for public use. The bot is specifically designed for the Kristal Discord server and may not function correctly in other servers.
 
+---
+
 ## Commands
 
 ### Public commands
@@ -12,9 +14,22 @@ A Discord bot for the Kristal Discord server.
 - `/ping` - Basic status check command to verify the bot is online.
 - `/tag [name]` - Sends a predefined message associated with the given tag name. **Tags are static and can only be added or modified in the source.**
 
+### Moderator commands
+
+- `/timeout [user] [duration] [reason]` - Times out a user for the specified duration with an optional reason. The user will be notified via DM.
+
 ### Owner-only commands
 
 - `/register` - Registers the bot's commands globally. The bot does not contain any guild-specific commands.
+
+---
+
+## Context Menu Commands
+
+- `Timeout (User)` - Times out a user for a specified duration with an optional reason. The user will be notified via DM.
+- `Timeout (Message)` - Times out the author of a specific message for a specified duration with an optional reason. The user will be notified via DM, and the offending message will be included in the notification.
+
+---
 
 ## Tags
 

@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+import { SlashCommandBuilder, MessageFlags } from 'discord.js';
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Test if the bot is working.'),

@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { Client, Collection, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
+import { ButtonStyle, ChannelType, Client, Collection, ComponentType, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 
@@ -45,6 +45,121 @@ for (const folder of commandFolders) {
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, async readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+
+	// TODO: Split this out, probably make it a different script instead of doing it here?
+	// Doesn't actually rely on any bot state I'm pretty sure
+
+	const sendFeatureRequestHeader = process.env.SEND_FEATURE_REQUESTS_HEADER === 'true';
+	const sendBugReportHeader = process.env.SEND_BUG_REPORTS_HEADER === 'true';
+
+	if (sendFeatureRequestHeader || sendBugReportHeader) {
+		// FIRST: fetch server
+		const guild = await readyClient.guilds.fetch(process.env.DISCORD_GUILD_ID);
+		// THEN: fetch forum channels
+		const bugForum = await guild.channels.fetch(process.env.FORUM_BUG_REPORTS);
+		const featureForum = await guild.channels.fetch(process.env.FORUM_FEATURE_REQUESTS);
+
+		// NOW: send header messages
+		if (sendFeatureRequestHeader && bugForum && bugForum.type === ChannelType.GuildForum) {
+			const thread = await bugForum.threads.create({
+				name: "Submitting a bug report?",
+				message: {
+					content: `
+# Before you report a bug...
+
+## Please ensure that your issue happens:
+- on the latest commit of Kristal
+- reproducibly, not just once
+- due to the engine itself and NOT due to a mod or library
+## If your issue is an accuracy issue to DELTARUNE, please:
+- explain what the issue is
+- provide screenshots or video evidence
+- if possible, go into technical detail
+## If your issue is a crash, please:
+- provide a screenshot of the crash
+- provide steps to reproduce the crash (e.g. code snippets, actions taken)
+
+
+Additionally, try not to submit duplicate reports; please search the existing open bug reports before submitting a new one.
+
+__Failure to follow these steps will result in your bug report being **closed as invalid**, and your access **may be restricted**.__
+
+To gain access to the bug reports forum, please click the button below to acknowledge you have read and understood the above instructions.`,
+					components: [
+						{
+							type: ComponentType.ActionRow,
+							components: [
+								{
+									type: ComponentType.Button,
+									custom_id: "bug_reports_allow",
+									label: "I understand",
+									style: ButtonStyle.Primary,
+									emoji: { name: "✅" }
+								},
+							]
+						}
+					]
+				}
+			})
+
+			// pin
+			try
+			{
+				await thread.pin();
+			}
+			catch (error)
+			{
+				console.warn("Failed to pin bug report header thread (something already pinned?)");
+			}
+		}
+
+		if (sendBugReportHeader && featureForum && featureForum.type === ChannelType.GuildForum) {
+			const thread = await featureForum.threads.create({
+				name: "Submitting a feature request?",
+				message: {
+					content: `
+# Before you submit a feature request...
+
+## Please ensure that your request is:
+- not already implemented in Kristal
+- not already requested (search existing feature requests)
+- for the engine itself (e.g., not for a mod, library, or the website)
+- not a "chapter gimmick" (e.g., Tenna's boards, Cyber City mouse puzzles)
+- something that **fits as a part of the base engine**, and is not overly specific or niche
+
+Additionally, please do not delete your feature requests if they're declined.
+
+__Failure to follow these steps will result in your feature request being **closed as invalid**, and your access **may be restricted**.__
+
+To gain access to the feature requests forum, please click the button below to acknowledge you have read and understood the above instructions.`,
+					components: [
+						{
+							type: ComponentType.ActionRow,
+							components: [
+								{
+									type: ComponentType.Button,
+									custom_id: "feature_requests_allow",
+									label: "I understand",
+									style: ButtonStyle.Primary,
+									emoji: { name: "✅" }
+								}
+							]
+						}
+					]
+				}
+			})
+
+			// pin
+			try
+			{
+				await thread.pin();
+			}
+			catch (error)
+			{
+				console.warn("Failed to pin feature request header thread (something already pinned?)");
+			}
+		}
+	}
 });
 
 client.on(Events.ThreadCreate, async thread => {
@@ -59,7 +174,42 @@ client.on(Events.ThreadCreate, async thread => {
 });
 
 client.on(Events.InteractionCreate, async interaction => {
-	if (interaction.isModalSubmit())
+	if (interaction.isButton())
+	{
+		if (interaction.customId === 'bug_reports_allow') {
+			if (!interaction.member || !interaction.member.roles)
+			{
+				await interaction.reply({ content: '❌ Unable to assign role. Please contact a moderator.', flags: MessageFlags.Ephemeral });
+				return;
+			}
+
+			if (interaction.member.roles.cache.has(process.env.ROLE_BUG_REPORTS)) {
+				await interaction.reply({ content: '✅ You already have access to the forum!', flags: MessageFlags.Ephemeral });
+				return;
+			}
+
+			await interaction.member.roles.add(process.env.ROLE_BUG_REPORTS);
+			await interaction.reply({ content: '✅ You have been given access to the forum!', flags: MessageFlags.Ephemeral });
+		}
+		else if (interaction.customId === 'feature_requests_allow') {
+			if (!interaction.member || !interaction.member.roles)
+			{
+				await interaction.reply({ content: '❌ Unable to assign role. Please contact a moderator.', flags: MessageFlags.Ephemeral });
+				return;
+			}
+			if (interaction.member.roles.cache.has(process.env.ROLE_FEATURE_REQUESTS)) {
+				await interaction.reply({ content: '✅ You already have access to the forum!', flags: MessageFlags.Ephemeral });
+				return;
+			}
+			await interaction.member.roles.add(process.env.ROLE_FEATURE_REQUESTS);
+			await interaction.reply({ content: '✅ You have been given access to the forum!', flags: MessageFlags.Ephemeral });
+		}
+		else
+		{
+			// we dont have any button stuff for now (other than what gets handled by the library)
+		}
+	}
+	else if (interaction.isModalSubmit())
 	{
 		// go through all commands and see if they have "modal_handlers"
 		for (const command of interaction.client.commands.values())

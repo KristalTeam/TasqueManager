@@ -10,16 +10,7 @@
     },
     {
         "type": 10,
-        "content": "The \"Test Mod\" is a mod created by the Kristal Developers (and people who make contributions) to test certain engine features. As such, it is **not intended to be used as a reference.** It's often times *not* what you should do, as they're for testing specific features.\n\nOften times, you'll be copying code which is **not what you should actually be doing**. This is important because it'll be harder to help you in those cases, and there's already enough people to help.\n\nAlso... you should *really* not use other people's code without asking them, unless they give explicit permission."
-    },
-    {
-        "type": 14,
-        "divider": true,
-        "spacing": 2
-    },
-    {
-        "type": 10,
-        "content": "Despite this, there are a few things you CAN copy:\n\n- `GonerBackground` & `GonerBackgroundPiece` (and the related assets, `IMAGE_DEPTH` and `AUDIO_ANOTHERHIM`)\n- `SoulAppearance` (and the related sound, `AUDIO_APPEARANCE`)\n\nThe actual code for the test cutscene is **NOT** included in this, and is both inaccurate and was only made to test, like most things in the mod."
+        "content": "The \"Test Mod\" is a mod created by the Kristal Developers (and people who make contributions) to test certain engine features. As such, it is **not intended to be used as a reference.** It's often times *not* what you should do, as they're for testing specific features. It is no longer publicly available for this reason, as users would constantly ignore the warnings set in place. While it is not impossible to obtain a copy, please refrain from sharing it around.\n\nOften times, you'll be copying code which is **not what you should actually be doing**. This is important because it'll be harder to help you in those cases, and there's already enough people to help.\n\nAlso... you should *really* not use other people's code without asking them, unless they give explicit permission."
     },
     {
         "type": 14,

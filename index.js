@@ -47,6 +47,17 @@ client.once(Events.ClientReady, async readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
 
+client.on(Events.ThreadCreate, async thread => {
+	if (thread.parentId === process.env.FORUM_BUG_REPORTS) {
+		// Add the tag
+		await thread.setAppliedTags([process.env.TAG_NEEDS_TRIAGE_BUG_REPORTS]);
+	}
+	else if (thread.parentId === process.env.FORUM_FEATURE_REQUESTS) {
+		// Add the tag
+		await thread.setAppliedTags([process.env.TAG_NEEDS_TRIAGE_FEATURE_REQUESTS]);
+	}
+});
+
 client.on(Events.InteractionCreate, async interaction => {
 	if (interaction.isModalSubmit())
 	{

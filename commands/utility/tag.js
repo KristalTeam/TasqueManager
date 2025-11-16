@@ -18,10 +18,8 @@ class TagCommand {
 	}
 
 	init(client) {
-		// recurse through the `tags` folder
-
-		// it should do the following:
-
+		// load the `tags` folder recursively. it does the following:
+		//
 		// - tags/my_cool_tag.json -> `my_cool_tag` is now a key in the map, value is the content of the file
 		// - tags/my_cool_tag/* -> if a folder exists with the same name as the tag, it contains attachments for the tag
 		// - tags/my_cool_tag/nested.json -> now, `my_cool_tag/nested` is a key.
@@ -47,11 +45,6 @@ class TagCommand {
 						attachmentsDir = null; // no attachments
 					}
 
-					/*this.tags.set(tagName, {
-						path: filePath,
-						content: require(filePath),
-						attachmentsDir: attachmentsDir
-					});*/
 					this.tags.set(tagName, {
 						path: filePath,
 						content: JSON.parse(fs.readFileSync(filePath, 'utf-8')),

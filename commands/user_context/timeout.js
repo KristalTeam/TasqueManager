@@ -85,8 +85,8 @@ export default {
 					new TextDisplayBuilder().setContent("-# Your timeout will expire <t:" + Math.floor((Date.now() + parse(duration)) / 1000) + ":R>. Please review the rules if necessary, and if you feel the timeout was undeserved, message a moderator."),
 			];
 
-			// dm the user
-			const message = await interaction.client.channels.cache.get(target.user.dmChannel?.id ?? (await target.user.createDM()).id).send({ components: components, flags: MessageFlags.IsComponentsV2 });
+			// dm them
+			await interaction.client.channels.cache.get(target.user.dmChannel?.id ?? (await target.user.createDM()).id).send({ components: components, flags: MessageFlags.IsComponentsV2 });
 
 			return true;
 		}

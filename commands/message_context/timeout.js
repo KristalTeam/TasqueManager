@@ -107,7 +107,7 @@ export default {
 			];
 
 			// dm the user
-			const message = await interaction.client.channels.cache.get(target.user.dmChannel?.id ?? (await target.user.createDM()).id).send({ components: components, flags: MessageFlags.IsComponentsV2 });
+			await interaction.client.channels.cache.get(target.user.dmChannel?.id ?? (await target.user.createDM()).id).send({ components: components, flags: MessageFlags.IsComponentsV2 });
 
 			return true;
 		}

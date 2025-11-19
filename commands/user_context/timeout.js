@@ -8,8 +8,6 @@ export default {
 		.setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
 		.setContexts(InteractionContextType.Guild),
 	async execute(interaction) {
-		//await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-
 		const target = interaction.targetMember;
 
 		if (!target) {

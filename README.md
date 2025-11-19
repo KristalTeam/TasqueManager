@@ -17,6 +17,7 @@ A Discord bot for the Kristal Discord server.
 ### Moderator commands
 
 - `/timeout [user] [duration] [reason]` - Times out a user for the specified duration with an optional reason. The user will be notified via DM.
+- `/ban [user] [delete_messages] [reason]` - Bans a user from the server with an optional reason and the amount of messages to delete. The user will be notified via DM.
 
 ### Owner-only commands
 
@@ -28,6 +29,8 @@ A Discord bot for the Kristal Discord server.
 
 - `Timeout (User)` - Times out a user for a specified duration with an optional reason. The user will be notified via DM.
 - `Timeout (Message)` - Times out the author of a specific message for a specified duration with an optional reason. The user will be notified via DM, and the offending message will be included in the notification.
+- `Ban (User)` - Bans a user from the server with an optional reason and the amount of messages to delete. The user will be notified via DM.
+- `Ban (Message)` - Bans the author of a specific message from the server with an optional reason and the amount of messages to delete. The user will be notified via DM, and the offending message will be included in the notification.
 
 ---
 

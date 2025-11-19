@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.21.0",
+    "discord.js": "^14.25.0",
     "dotenv": "^17.2.0",
     "parse-duration": "^2.1.4",
     "sanitize-filename": "^1.6.3"

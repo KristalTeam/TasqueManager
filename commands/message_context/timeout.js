@@ -1,7 +1,6 @@
 import { ContextMenuCommandBuilder, PermissionFlagsBits, InteractionContextType, MessageFlags, ApplicationCommandType } from "discord.js";
 import { ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle } from "discord.js";
-import { TextDisplayBuilder, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize } from 'discord.js';
-import parse from 'parse-duration';
+import { handleTimeout } from "../../utils/timeout.js";
 
 export default {
 	data: new ContextMenuCommandBuilder()
@@ -61,54 +60,8 @@ export default {
 			}
 			const duration = interaction.fields.getTextInputValue('durationInput');
 			const reason = interaction.fields.getTextInputValue('reasonInput');
-			if (!duration || isNaN(parse(duration))) {
-				await interaction.editReply({ content: '❌ Invalid duration! Examples: `30m`, `2.5h`, `4d12h`' });
-				return;
-			}
-			if (parse(duration) < 1000 * 30 || parse(duration) > 1000 * 60 * 60 * 24 * 28) {
-				await interaction.editReply({ content: '❌ Duration must be between 30 seconds and 28 days!' });
-				return;
-			}
 
-			const executorName = interaction.member ? interaction.member.displayName : interaction.user.displayName;
-			if (!reason)
-			{
-				await target.timeout(parse(duration), `${executorName}: No reason provided.`);
-				await interaction.editReply({ content: `✅ Timed out ${target.displayName} (\`${target.id}\`) for ${duration}.` }, { flags: MessageFlags.Ephemeral });
-			}
-			else
-			{
-				await target.timeout(parse(duration), `${executorName}: ${reason}`);
-				await interaction.editReply({ content: `✅ Timed out ${target.displayName} (\`${target.id}\`) for ${duration}. Reason: ${reason}` }, { flags: MessageFlags.Ephemeral });
-			}
-
-			const components = [
-					new TextDisplayBuilder().setContent("## ⏰ You've been timed out from **Kristal** for the following reason:"),
-					new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(false),
-					new ContainerBuilder()
-						.addTextDisplayComponents(
-							new TextDisplayBuilder().setContent(reason ? reason : "No reason provided."),
-						),
-					new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
-					new TextDisplayBuilder().setContent("### Your offending message:"),
-					new ContainerBuilder()
-						.addTextDisplayComponents(
-							new TextDisplayBuilder().setContent("**" + target.displayName + "**"),
-						)
-						.addTextDisplayComponents(
-							new TextDisplayBuilder().setContent(selectedMessage.content ? selectedMessage.content : "*[No text content]*"),
-						)
-						.addTextDisplayComponents(
-							//new TextDisplayBuilder().setContent(`-# [🔗 Jump to message](https://canary.discord.com/channels/1103078455089836034/1396328373395001385/1420955109923225612) | <t:1088305200>`),
-							new TextDisplayBuilder().setContent(`-# 🔗 [Jump to message](${selectedMessage.url}) | <t:${Math.floor(selectedMessage.createdTimestamp / 1000)}>`),
-						),
-					new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large).setDivider(true),
-					new TextDisplayBuilder().setContent("-# Your timeout will expire <t:" + Math.floor((Date.now() + parse(duration)) / 1000) + ":R>. Please review the rules if necessary, and if you feel the timeout was undeserved, message a moderator."),
-			];
-
-			// dm the user
-			await interaction.client.channels.cache.get(target.user.dmChannel?.id ?? (await target.user.createDM()).id).send({ components: components, flags: MessageFlags.IsComponentsV2 });
-
+			await handleTimeout(target, duration, reason, interaction, selectedMessage);
 			return true;
 		}
 		return false;

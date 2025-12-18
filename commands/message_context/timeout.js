@@ -1,6 +1,6 @@
 import { ContextMenuCommandBuilder, PermissionFlagsBits, InteractionContextType, MessageFlags, ApplicationCommandType } from "discord.js";
 import { ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle } from "discord.js";
-import { handleTimeout } from "../../utils/timeout.js";
+import { handleTimeout } from "../../utils/timeout";
 
 export default {
 	data: new ContextMenuCommandBuilder()

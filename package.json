@@ -4,8 +4,8 @@
   "description": "Discord bot for the Kristal server.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsx index.ts",
+    "dev": "tsx watch index.ts"
   },
   "author": "",
   "license": "ISC",

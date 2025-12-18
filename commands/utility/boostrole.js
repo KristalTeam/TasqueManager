@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, MessageFlags, LabelBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, FileUploadBuilder } from 'discord.js';
-import database from '../../database.js';
+import database from '../../database';
 import { eq } from 'drizzle-orm';
-import { userRoles } from '../../db/schema.ts';
+import { userRoles } from '../../db/schema';
 
 class BoostRoleCommand {
 	constructor() {

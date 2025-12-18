@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits, InteractionContextType, MessageFlags } from "discord.js";
-import { handleBan } from "../../utils/ban.js";
+import { handleBan } from "../../utils/ban";
 
 export default {
 	data: new SlashCommandBuilder()

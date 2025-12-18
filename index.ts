@@ -5,8 +5,8 @@ import { pathToFileURL, fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 import { CronJob } from 'cron';
 import { eq } from 'drizzle-orm';
-import { userRoles } from './db/schema.ts';
-import database from './database.js';
+import { userRoles } from './db/schema';
+import database from './database';
 
 dotenv.config();
 

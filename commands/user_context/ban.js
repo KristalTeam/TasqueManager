@@ -1,5 +1,5 @@
 import { ContextMenuCommandBuilder, PermissionFlagsBits, InteractionContextType, MessageFlags, ApplicationCommandType, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
-import { handleBan } from "../../utils/ban.js";
+import { handleBan } from "../../utils/ban";
 
 export default {
 	data: new ContextMenuCommandBuilder()

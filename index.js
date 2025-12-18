@@ -3,6 +3,10 @@ import path from 'node:path';
 import { ButtonStyle, ChannelType, Client, Collection, ComponentType, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
+import { CronJob } from 'cron';
+import { eq } from 'drizzle-orm';
+import { userRoles } from './db/schema.ts';
+import database from './database.js';
 
 dotenv.config();
 
@@ -45,6 +49,65 @@ for (const folder of commandFolders) {
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, async readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+
+	// local func
+	const checkRoles = async () => {
+		const guild = client.guilds.cache.get(process.env.DISCORD_GUILD_ID);
+		if (!guild) return;
+
+		// query the database for all users with boost roles
+
+		const userRoleList = await database.select().from(userRoles);
+
+		for (const userRole of userRoleList) {
+			const member = await guild.members.fetch(userRole.user_id.toString()).catch(() => null);
+
+			if (!member) {
+				console.log(`User ID ${userRole.user_id} not found in guild.`);
+				// User not found in guild, also delete their role from the database
+				const existingRole = await guild.roles.fetch(userRole.role_id.toString()).catch(() => null);
+				if (existingRole)
+				{
+					try {
+						console.log(`Deleting role ${existingRole.name} for missing user ID ${userRole.user_id}`);
+						await existingRole.delete(`User not found in guild; cleaning up boost role.`);
+					}
+					catch (error) {
+						console.log(`Failed to delete role for missing user ID ${userRole.user_id}: ${error}`);
+					}
+				}
+				await database.delete(userRoles).where(eq(userRoles.user_id, userRole.user_id));
+				continue;
+			}
+
+			const boostRole = member.roles.cache.find(role => role.tags?.premiumSubscriberRole)
+			if (!boostRole)
+			{
+				console.log(`User ${member.user.tag} is no longer boosting.`);
+				// They don't have the boost role, so delete their role if it exists
+				const existingRole = await guild.roles.fetch(userRole.role_id.toString()).catch(() => null);
+				if (existingRole)
+				{
+					try {
+						console.log(`Deleting role ${existingRole.name} for user ${member.user.tag}`);
+						await existingRole.delete(`User ${member.user.tag} is no longer boosting the server.`);
+						await database.delete(userRoles).where(eq(userRoles.user_id, userRole.user_id));
+					} catch (error) {
+						console.log(`Failed to delete role for user ${member.user.tag}: ${error}`);
+					}
+				}
+			}
+		}
+	}
+
+	let scheduledMessage = new CronJob('00 00 14 * * *', async () => {
+		// This runs every day at hour 14 (2 PM)
+		await checkRoles();
+	});
+
+	scheduledMessage.start();
+
+	await checkRoles();
 
 	// TODO: Split this out, probably make it a different script instead of doing it here?
 	// Doesn't actually rely on any bot state I'm pretty sure

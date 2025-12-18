@@ -10,10 +10,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cron": "^4.4.0",
     "discord.js": "^14.25.0",
     "dotenv": "^17.2.0",
+    "drizzle-orm": "^1.0.0-beta.3-36e9b9e",
     "parse-duration": "^2.1.4",
+    "postgres": "^3.4.7",
     "sanitize-filename": "^1.6.3"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "drizzle-kit": "^1.0.0-beta.3-36e9b9e"
+  }
 }

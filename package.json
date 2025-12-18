@@ -20,6 +20,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "drizzle-kit": "^1.0.0-beta.3-36e9b9e"
+    "drizzle-kit": "^1.0.0-beta.3-36e9b9e",
+    "tsx": "^4.21.0"
   }
 }

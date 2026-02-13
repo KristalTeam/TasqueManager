@@ -239,6 +239,10 @@ client.on(Events.ThreadCreate, async thread => {
 client.on(Events.InteractionCreate, async interaction => {
 	if (interaction.isButton())
 	{
+		if (interaction.customId === 'equip_a' || interaction.customId === 'equip_b') {
+			await interaction.reply({ content: "\\* ...", flags: MessageFlags.Ephemeral });
+			return;
+		}
 		if (interaction.customId === 'bug_reports_allow') {
 			if (!interaction.member || !interaction.member.roles)
 			{

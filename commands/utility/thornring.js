@@ -30,7 +30,7 @@ class ThornRingCommand {
 				),
 		];
 
-		await interaction.reply({ components: components, flags: MessageFlags.IsComponentsV2 });
+		await interaction.reply({ components: components, flags: MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral });
 	}
 }
 

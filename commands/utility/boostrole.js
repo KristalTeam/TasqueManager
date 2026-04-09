@@ -46,7 +46,7 @@ class BoostRoleCommand {
 				),
 			new LabelBuilder()
 				.setLabel("The color of the role")
-				.setDescription("Set the color for your boost role in HEX format (e.g., #00FFFF).")
+				.setDescription("Set the color for your boost role in HEX format (e.g., #00FFFF). If you would like a holographic or gradient role, mention @nyakofox asking for certain settings.")
 				.setTextInputComponent(
 					new TextInputBuilder()
 						.setCustomId('roleColorInput')

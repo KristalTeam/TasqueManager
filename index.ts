@@ -231,7 +231,7 @@ To gain access to the feature requests forum, please click the button below to a
 				content: `
 # Before you talk here...
 
-## This server is for the engine itself, NOT things made with it!
+## This channel is for the engine itself, NOT things made with it!
 
 This is where development of Kristal itself happens. Please do not ask for help here.
 

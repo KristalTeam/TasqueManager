@@ -114,13 +114,15 @@ client.once(Events.ClientReady, async readyClient => {
 
 	const sendFeatureRequestHeader = process.env.SEND_FEATURE_REQUESTS_HEADER === 'true';
 	const sendBugReportHeader = process.env.SEND_BUG_REPORTS_HEADER === 'true';
+	const sendEngineDevHeader = process.env.SEND_ENGINE_DEV_HEADER === 'true';
 
-	if (sendFeatureRequestHeader || sendBugReportHeader) {
+	if (sendFeatureRequestHeader || sendBugReportHeader || sendEngineDevHeader) {
 		// FIRST: fetch server
 		const guild = await readyClient.guilds.fetch(process.env.DISCORD_GUILD_ID);
 		// THEN: fetch forum channels
 		const bugForum = await guild.channels.fetch(process.env.FORUM_BUG_REPORTS);
 		const featureForum = await guild.channels.fetch(process.env.FORUM_FEATURE_REQUESTS);
+		const engineDevChannel = await guild.channels.fetch(process.env.CHANNEL_ENGINE_DEVELOPMENT);
 
 		// NOW: send header messages
 		if (sendFeatureRequestHeader && bugForum && bugForum.type === ChannelType.GuildForum) {
@@ -222,6 +224,34 @@ To gain access to the feature requests forum, please click the button below to a
 				console.warn("Failed to pin feature request header thread (something already pinned?)");
 			}
 		}
+
+		// NOW: send header messages
+		if (sendEngineDevHeader && engineDevChannel && engineDevChannel.type === ChannelType.GuildText) {
+			const message = await engineDevChannel.send({
+				content: `
+# Before you talk here...
+
+## This server is for the engine itself, NOT things made with it!
+
+This is where development of Kristal itself happens. Please do not ask for help here.
+
+To gain access this channel (and related ones), please click the button below to acknowledge you have read and understood the above instructions.`,
+				components: [
+					{
+						type: ComponentType.ActionRow,
+						components: [
+							{
+								type: ComponentType.Button,
+								custom_id: "engine_dev_allow",
+								label: "I understand",
+								style: ButtonStyle.Primary,
+								emoji: { name: "✅" }
+							},
+						]
+					}
+				]
+			})
+		}
 	}
 });
 
@@ -257,6 +287,21 @@ client.on(Events.InteractionCreate, async interaction => {
 
 			await interaction.member.roles.add(process.env.ROLE_BUG_REPORTS);
 			await interaction.reply({ content: '✅ You have been given access to the forum!', flags: MessageFlags.Ephemeral });
+		}
+		else if (interaction.customId === 'engine_dev_allow') {
+			if (!interaction.member || !interaction.member.roles)
+			{
+				await interaction.reply({ content: '❌ Unable to assign role. Please contact a moderator.', flags: MessageFlags.Ephemeral });
+				return;
+			}
+
+			if (interaction.member.roles.cache.has(process.env.ROLE_ENGINE_DEV_ACCESS)) {
+				await interaction.reply({ content: '✅ You already have access to the channels!', flags: MessageFlags.Ephemeral });
+				return;
+			}
+
+			await interaction.member.roles.add(process.env.ROLE_ENGINE_DEV_ACCESS);
+			await interaction.reply({ content: '✅ You have been given access to the channels!', flags: MessageFlags.Ephemeral });
 		}
 		else if (interaction.customId === 'feature_requests_allow') {
 			if (!interaction.member || !interaction.member.roles)

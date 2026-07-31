@@ -79,10 +79,14 @@ FORUM_BUG_REPORTS = "FORUM_ID_HERE" # The ID of the Bug Reports forum
 TAG_NEEDS_TRIAGE_BUG_REPORTS = "TAG_ID_HERE" # The ID of the "Needs Triage" tag in the Bug Reports forum
 ROLE_BUG_REPORTS = "ROLE_ID_HERE" # The ID of the "Bug Reports" role, which gives access to post in the forum
 
+CHANNEL_ENGINE_DEVELOPMENT = "CHANNEL_ID_HERE" # The ID of the Engine Development channel
+ROLE_ENGINE_DEV_ACCESS = "ROLE_ID_HERE" # The ID of the "Engine Dev Access" role, which gives access to post in the Engine Development and GitHub channels
+
 # ONE-OFF TRIGGERS:
 
 SEND_FEATURE_REQUESTS_HEADER = "false" # Set to "true" to make the bot send the "header message" in the Feature Requests forum
 SEND_BUG_REPORTS_HEADER = "false" # Set to "true" to make the bot send the "header message" in the Bug Reports forum
+SEND_ENGINE_DEV_HEADER = "false" # Set to "true" to make the bot send the "header message" in the Engine Development channel
 
 # TURN THE ABOVE TRIGGERS OFF AFTERWARDS!
 ```

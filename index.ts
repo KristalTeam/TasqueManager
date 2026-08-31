@@ -255,6 +255,37 @@ To gain access this channel (and related ones), please click the button below to
 	}
 });
 
+client.on(Events.MessageCreate, async message => {
+	if (message.channelId === process.env.HONEYPOT_CHANNEL) {
+		if (!message.guild) {
+			return;
+		}
+
+		if (message.author.bot) return;
+
+		try {
+			const modlogHoneypot = await message.guild.channels.fetch(process.env.MODLOG_HONEYPOT_CHANNEL);
+			if (modlogHoneypot.type === ChannelType.GuildText)
+			{
+				await modlogHoneypot.send(`Banning user ${message.author.tag} (${message.author.id}) <@${message.author.id}>\n\`\`\`\n${message.content}\`\`\``).catch(() => null);
+				await message.forward(modlogHoneypot).catch(() => null);
+			}
+		} catch (error) {
+			console.error(`Failed to log honeypot message: ${error}`);
+		}
+
+		await message.delete().catch(() => null);
+
+		try {
+			await message.guild.members.ban(message.author.id, {
+				reason: "Sent message in honeypot channel"
+			});
+		} catch (error) {
+			console.error(`Failed to ban honeypot user: ${error}`);
+		}
+	}
+})
+
 client.on(Events.ThreadCreate, async thread => {
 	if (thread.parentId === process.env.FORUM_BUG_REPORTS) {
 		// Add the tag

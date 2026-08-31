@@ -10,7 +10,13 @@ import database from './database';
 
 dotenv.config();
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent
+	]
+});
 
 client.commands = new Collection();
 
@@ -257,8 +263,6 @@ To gain access this channel (and related ones), please click the button below to
 
 client.on(Events.MessageCreate, async message => {
 	if (message.channelId === process.env.HONEYPOT_CHANNEL) {
-		console.log(`Honeypot message detected from user ${message.author.tag} (${message.author.id}) in channel ${message.channelId}: ${message.content}`);
-
 		if (!message.guild) {
 			console.log(`Message is not in a guild, cannot ban user ${message.author.tag} (${message.author.id}).`);
 			return;
